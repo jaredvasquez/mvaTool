@@ -1,0 +1,94 @@
+# Basic config file for model training
+
+config:
+  treename:    "physics"
+  outputfile:  "output.root"
+
+  background:
+    - "ntuples/data16_DS3.root"
+    - "ntuples/data16_DS4.root"
+
+  signal:
+    - "ntuples/ttH.root"
+
+
+factory:
+   - "!V"
+   - "!Silent"
+   - "Color"
+   - "DrawProgressBar"
+   #- "Transformations=I;D;P;G;D"
+   - "AnalysisType=Classification"
+
+
+training:
+   - "!V"
+   - "nTrain_Signal=0"
+   - "nTrain_Background=0"
+   - "SplitMode=Random"
+   - "NormMode=NumEvents"
+
+
+classifier:
+   - "!H"
+   - "!V"
+   - "NTrees=1500"
+   - "MinNodeSize=0.05"
+   - "MaxDepth=3"
+   - "NegWeightTreatment=IgnoreNegWeightsInTraining"
+
+
+variables:
+   discriminants:
+      - pT_j1
+      - njets_25
+      - njetsCen_30
+      - ntags_25_77
+      - pT_lv
+      - met_TST
+      - sumet_TST
+      - met_TST/sqrt(sumet_TST+1000)
+
+   spectators:
+      - m_yy
+      - weight
+      - weightTotal
+      - catCoup_dev
+      - weightCatCoup_dev
+
+   ignore: 
+      - pT_yy
+      - pTt_yy
+      - pT_j1_30
+      - m_alljet
+      - pT_alljet
+      - eta_alljet
+      - njets_30
+      - njets_35
+      - njetsCen_25
+      - njetsCen_35
+      - njetsFwd_25
+      - njetsFwd_30
+      - njetsFwd_35
+      - ntags_25_60
+      - ntags_25_70
+      - ntags_25_60
+      - ntags_30_70
+      - ntags_30_77
+      - ntags_30_85
+      - ntags_30_85
+      - ntags_35_70
+      - ntags_35_77
+      - ntags_35_85
+      - ntags_35_85
+      - N_e
+      - N_mu
+      - N_lep
+      - N_lep_15
+      - m_ee
+      - m_mumu
+      - passMeyCut
+      - pT_ll
+      - mT_lv
+      - phi_TST
+
