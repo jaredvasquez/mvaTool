@@ -1,12 +1,21 @@
 # Basic config file for model training
 
-config:
+options:
   treename:    "physics"
   outputfile:  "output.root"
 
+  BkgCuts:     "(N_lep >= 1)*(isPassedRII)"
+  SigCuts:     "(N_lep >= 1)*(isPassed)" 
+
+
+samples:
   background:
+    - "ntuples/data15_all.root"
+    - "ntuples/data16_DS1.root"
+    - "ntuples/data16_DS2.root"
     - "ntuples/data16_DS3.root"
     - "ntuples/data16_DS4.root"
+    - "ntuples/data16_DS2.root"
 
   signal:
     - "ntuples/ttH.root"
@@ -56,7 +65,7 @@ variables:
       - catCoup_dev
       - weightCatCoup_dev
 
-   ignore: 
+   ignore:  
       - pT_yy
       - pTt_yy
       - pT_j1_30

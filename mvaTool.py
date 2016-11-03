@@ -14,17 +14,16 @@ for section in cfg:
   print cfg[section]
   print ""
 
-config   = cfg['config']
-treename = config['treename']
 
-fout    = TFile( config['outputfile'], "RECREATE" )
+fout    = TFile( cfg['options']['outputfile'], "RECREATE" )
 factory = TMVA.Factory("ttHClassification", fout, ":".join(cfg['factory']))
 
+
 # Prepare Trees
-SigTree = TChain( config['treename'] )
-BkgTree = TChain( config['treename'] )
-for fname in config['signal']:      SigTree.Add( fname )
-for fname in config['background']:  BkgTree.Add( fname )
+SigTree = TChain( cfg['options']['treename'] )
+BkgTree = TChain( cfg['options']['treename'] )
+for fname in cfg['samples']['signal']:      SigTree.Add( fname )
+for fname in cfg['samples']['background']:  BkgTree.Add( fname )
 
 
 # Add spectators
@@ -52,10 +51,11 @@ factory.AddBackgroundTree( BkgTree )
 
 
 # cuts defining the signal and background sample
-sigCut = TCut("(N_lep >= 1)*(isPassed)")
-bgCut  = TCut("(N_lep >= 1)*(isPassedRII)")
+SigCut, BkgCut = "", ""
+if ('SigCuts' in cfg['options']): SigCut = cfg['options']['SigCuts']
+if ('BkgCuts' in cfg['options']): BkgCut = cfg['options']['BkgCuts']
 
-factory.PrepareTrainingAndTestTree( sigCut, bgCut, ":".join(cfg['training']) )
+factory.PrepareTrainingAndTestTree( TCut(SigCut), TCut(BkgCut), ":".join(cfg['training']) )
 method  = factory.BookMethod( TMVA.Types.kBDT, "BDT", ":".join(cfg['classifier']) )
 
 factory.TrainAllMethods()
