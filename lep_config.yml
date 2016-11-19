@@ -2,23 +2,43 @@
 
 options:
   treename:    "physics"
-  outputfile:  "output.root"
+  outputfile:  "output-lep.root"
+  modelname:   "ttHlep"
 
-  BkgCuts:     "(N_lep >= 1)*(isPassedRII)"
-  SigCuts:     "(N_lep >= 1)*(isPassed)" 
+  BkgCuts:     "(N_lep >= 1)*(isPassedRII)*(abs(m_yy*0.001-125)>5)"
+  SigCuts:     "(N_lep >= 1)*(isPassed)"
+
+  SigWeight:   "(weightTotal)*28.0"
+
 
 
 samples:
-  background:
-    - "ntuples/data15_all.root"
-    - "ntuples/data16_DS1.root"
-    - "ntuples/data16_DS2.root"
-    - "ntuples/data16_DS3.root"
-    - "ntuples/data16_DS4.root"
-    - "ntuples/data16_DS2.root"
 
-  signal:
-    - "ntuples/ttH.root"
+  training:
+  #----------------------------------------
+    background:
+      - "ntuples_split/data_train.root"
+
+    signal:
+      - "ntuples_split/ttH_train.root"
+
+  testing:
+  #----------------------------------------
+    background:
+      - "ntuples_split/data_test.root"
+
+    signal:
+      - "ntuples_split/ttH_test.root"
+
+  ignore_background:
+  #----------------------------------------
+    background:
+    - "ntuples_split/data_train.root"
+
+  ignore_signal:
+  #----------------------------------------
+    background:
+    - "ntuples_split/ttH_train.root"
 
 
 factory:
@@ -26,8 +46,8 @@ factory:
    - "!Silent"
    - "Color"
    - "DrawProgressBar"
-   #- "Transformations=I;D;P;G;D"
    - "AnalysisType=Classification"
+   - "Transformations=I;D;P;G;D"
 
 
 training:
@@ -41,10 +61,19 @@ training:
 classifier:
    - "!H"
    - "!V"
-   - "NTrees=1500"
-   - "MinNodeSize=0.05"
-   - "MaxDepth=3"
+   - "NTrees=100"
+   - "MinNodeSize=5.0%"
+   - "nCuts=10"
+   - "MaxDepth=5"
+   - "BoostType=Grad"
+   - "Shrinkage=0.10"
    - "NegWeightTreatment=IgnoreNegWeightsInTraining"
+   #- "NTrees=1500"
+   #- "MinNodeSize=0.05"
+   #- "MaxDepth=3"
+   #- "NegWeightTreatment=IgnoreNegWeightsInTraining"
+   #- "BoostType=Grad"
+   #- "Shrinkage=1"
 
 
 variables:
@@ -56,16 +85,20 @@ variables:
       - pT_lv
       - met_TST
       - sumet_TST
-      - met_TST/sqrt(sumet_TST+1000)
+      - METsig
+      #- "METsig := met_TST/sqrt(sumet_TST)"
 
-   spectators:
+   ignore_spectators:
       - m_yy
       - weight
       - weightTotal
       - catCoup_dev
       - weightCatCoup_dev
+      - isPassedRII
+      - isPassed
+      - N_lep
 
-   ignore:  
+   ignore:
       - pT_yy
       - pTt_yy
       - pT_j1_30

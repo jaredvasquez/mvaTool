@@ -1,0 +1,135 @@
+# Basic config file for model training
+
+options:
+  treename:    "physics"
+  outputfile:  "output-had.root"
+  modelname:   "ttHhad"
+
+  BkgCuts:     "(N_lep == 0)*(ntags_25_77>0)*(njets_25>2)*(isPassedRII)*(abs(m_yy*0.001-125)>5)"
+  SigCuts:     "(N_lep == 0)*(ntags_25_77>0)*(njets_25>2)*(isPassed)" 
+
+  SigWeight:   "(weightTotal)*28.0"
+
+
+
+samples:
+
+  training:
+  #----------------------------------------
+    background:
+      - "ntuples_split/data_train.root"
+
+    signal: 
+      - "ntuples_split/ttH_train.root"
+
+  testing:
+  #----------------------------------------
+    background:
+      - "ntuples_split/data_test.root"
+
+    signal: 
+      - "ntuples_split/ttH_test.root"
+
+  ignore_background:
+  #----------------------------------------
+    background:
+    - "ntuples_split/data_train.root"
+
+  ignore_signal:
+  #----------------------------------------
+    background:
+    - "ntuples_split/ttH_train.root"
+
+
+factory:
+   - "!V"
+   - "!Silent"
+   - "Color"
+   - "DrawProgressBar"
+   - "AnalysisType=Classification"
+   - "Transformations=I;D;P;G;D"
+
+
+training:
+   - "!V"
+   - "nTrain_Signal=0"
+   - "nTrain_Background=0"
+   - "SplitMode=Random"
+   - "NormMode=NumEvents"
+
+
+classifier:
+   - "!H"
+   - "!V"
+   - "NTrees=100"
+   - "MinNodeSize=5.0%"
+   - "nCuts=10"
+   - "MaxDepth=5"
+   - "BoostType=Grad"
+   - "Shrinkage=0.10"
+   - "NegWeightTreatment=IgnoreNegWeightsInTraining"
+   #- "UseBaggedBoost=True"
+   #- "BaggedSampleFraction=0.5"
+   #- "NTrees=1500"
+   #- "MinNodeSize=0.05"
+   #- "MaxDepth=3"
+   #- "NegWeightTreatment=IgnoreNegWeightsInTraining"
+   #- "BoostType=Grad"
+
+
+variables:
+   discriminants:
+      - pT_j1
+      - njets_25
+      - njetsCen_30
+      - ntags_25_77
+      - sumet_TST
+      #- met_TST
+      #- METsig
+
+   ignore_spectators:
+      - m_yy
+      - weight
+      - weightTotal
+      - catCoup_dev
+      - weightCatCoup_dev
+      - isPassedRII
+      - isPassed
+
+   ignore:  
+      - pT_yy
+      - pTt_yy
+      - pT_j1_30
+      - m_alljet
+      - pT_alljet
+      - eta_alljet
+      - njets_30
+      - njets_35
+      - njetsCen_25
+      - njetsCen_35
+      - njetsFwd_25
+      - njetsFwd_30
+      - njetsFwd_35
+      - ntags_25_60
+      - ntags_25_70
+      - ntags_25_60
+      - ntags_30_70
+      - ntags_30_77
+      - ntags_30_85
+      - ntags_30_85
+      - ntags_35_70
+      - ntags_35_77
+      - ntags_35_85
+      - ntags_35_85
+      - N_e
+      - N_mu
+      - N_lep
+      - N_lep_15
+      - m_ee
+      - m_mumu
+      - passMeyCut
+      - pT_ll
+      - pT_lv
+      - mT_lv
+      - phi_TST
+
