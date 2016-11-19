@@ -10,8 +10,6 @@ options:
 
   SigWeight:   "(weightTotal)*28.0"
 
-
-
 samples:
 
   training:
@@ -47,7 +45,7 @@ factory:
    - "Color"
    - "DrawProgressBar"
    - "AnalysisType=Classification"
-   - "Transformations=I;D;P;G;D"
+   #- "Transformations=I;D;P;G;D"
 
 
 training:
@@ -70,11 +68,6 @@ classifier:
    - "NegWeightTreatment=IgnoreNegWeightsInTraining"
    #- "UseBaggedBoost=True"
    #- "BaggedSampleFraction=0.5"
-   #- "NTrees=1500"
-   #- "MinNodeSize=0.05"
-   #- "MaxDepth=3"
-   #- "NegWeightTreatment=IgnoreNegWeightsInTraining"
-   #- "BoostType=Grad"
 
 
 variables:

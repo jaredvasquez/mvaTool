@@ -47,7 +47,7 @@ factory:
    - "Color"
    - "DrawProgressBar"
    - "AnalysisType=Classification"
-   - "Transformations=I;D;P;G;D"
+   #- "Transformations=I;D;P;G;D"
 
 
 training:
@@ -68,12 +68,6 @@ classifier:
    - "BoostType=Grad"
    - "Shrinkage=0.10"
    - "NegWeightTreatment=IgnoreNegWeightsInTraining"
-   #- "NTrees=1500"
-   #- "MinNodeSize=0.05"
-   #- "MaxDepth=3"
-   #- "NegWeightTreatment=IgnoreNegWeightsInTraining"
-   #- "BoostType=Grad"
-   #- "Shrinkage=1"
 
 
 variables:
@@ -86,7 +80,6 @@ variables:
       - met_TST
       - sumet_TST
       - METsig
-      #- "METsig := met_TST/sqrt(sumet_TST)"
 
    ignore_spectators:
       - m_yy
