@@ -1,5 +1,5 @@
 # mvaTool
-This tool trains a TMVA BDT and optimizes event selection using a simple interface with YAML configuration files. 
+This tool train a boosted decision tree and optimize event selection using a simple interface with YAML configuration files. 
 
 ## Run optimization 
 ```python mvaTool.py config.yml```
